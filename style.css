@@ -43,3 +43,36 @@ footer {
   background-color: #333;
   color: white;
 }
+
+#nametool {
+  display: inline;
+}
+#namekit {
+  display: inline;
+  color: #FFD700;
+}
+
+.tool i {
+    font-size: 40px; /* Adjust icon size */
+    margin-right: 10px; /* Space between icon and text */
+    color: #007BFF; /* Icon color */
+}
+
+.tool {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin: 10px 0;
+    cursor: pointer;
+}
+
+.tool:hover {
+    background-color: #f0f0f0;
+}
+
+.tool h2 {
+    margin: 0;
+    font-size: 1.2rem;
+}

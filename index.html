@@ -5,23 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ToolerKit</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Add Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <header>
-        <h1>Tools Hub</h1>
+        <h1 id="nametool">
+          Tooler <h1 id="namekit">Kit</h1>
+        </h1>
     </header>
     <main>
         <div class="tool" onclick="openTool('/interest calculator /int-calc.html')">
+            <i class="fas fa-calculator"></i> <!-- Icon for Interest Calculator -->
             <h2>Interest Calculator</h2>
             <p>Calculate your interest easily.</p>
         </div>
-        <div class="tool">
-            <h2>Tool 2</h2>
-            <p>Description of Tool 2.</p>
+
+        <div class="tool" onclick="openTool('/Qr code generator /qr.html')">
+            <i class="fas fa-qrcode"></i> <!-- Icon for QR Generator -->
+            <h2>QR Generator</h2>
+            <p>Generate QR Code easily.</p>
         </div>
-        <div class="tool">
-            <h2>Tool 3</h2>
-            <p>Description of Tool 3.</p>
+
+        <div class="tool" onclick="openTool('/file-converter /file-con.html')">
+            <i class="fas fa-file-upload"></i> 
+            <h2>File Converter</h2>
+            <p>Convert your files easily.</p>
         </div>
     </main>
     <footer>
