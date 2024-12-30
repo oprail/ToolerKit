@@ -21,6 +21,12 @@
             <label for="time">Time (years):</label>
             <input type="number" id="time" placeholder="Enter time in years" required>
 
+            <label for="interestType">Select Interest Type:</label>
+            <select id="interestType">
+                <option value="simple">Simple Interest</option>
+                <option value="compound">Compound Interest</option>
+            </select>
+
             <button type="button" onclick="calculateInterest()">Calculate</button>
         </form>
         <div id="result"></div>
