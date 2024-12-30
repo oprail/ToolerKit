@@ -10,14 +10,25 @@ function calculateInterest() {
   }
 
   let resultText = '';
+  let totalAmount = 0;
+  let totalInterest = 0;
 
   if (interestType === 'simple') {
-    const simpleInterest = (principal * rate * time) / 100;
-    resultText = `Simple Interest: ${simpleInterest.toFixed(2)}`;
+    totalInterest = (principal * rate * time) / 100;
+    totalAmount = principal + totalInterest;
+    resultText = `
+            Simple Interest: ${totalInterest.toFixed(2)}<br>
+            Total Amount: ${totalAmount.toFixed(2)}
+        `;
   } else if (interestType === 'compound') {
-    const compoundInterest = principal * Math.pow(1 + rate / 100, time) - principal;
-    resultText = `Compound Interest: ${compoundInterest.toFixed(2)}`;
+    totalAmount = principal * Math.pow(1 + rate / 100, time);
+    totalInterest = totalAmount - principal;
+    resultText = `
+            Compound Interest: ${totalInterest.toFixed(2)}<br>
+            Total Amount: ${totalAmount.toFixed(2)}
+        `;
   }
 
-  document.getElementById('result').textContent = resultText;
+  // Display the results
+  document.getElementById('result').innerHTML = resultText;
 }
