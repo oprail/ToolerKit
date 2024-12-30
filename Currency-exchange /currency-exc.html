@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #4CAF50;
+            padding: 20px;
+            color: white;
+            font-size: 2rem;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin-top: 50px;
+        }
+
+        .converter {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: left;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .currency-select {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .currency-select select {
+            width: 75%;
+        }
+
+        .currency-select img {
+            width: 25px;
+            height: auto;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            width: 100%;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        Currency Converter
+    </header>
+
+    <div class="container">
+        <div class="converter">
+            <h3>Convert Currency</h3>
+            <input type="number" id="amount" placeholder="Amount" step="any" />
+            
+            <div class="currency-select">
+                <select id="fromCurrency">
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="GBP">GBP</option>
+                    <option value="INR">INR</option>
+                    <option value="AUD">AUD</option>
+                </select>
+                <img id="fromFlag" src="" alt="From Flag">
+            </div>
+            
+            <div class="currency-select">
+                <select id="toCurrency">
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="GBP">GBP</option>
+                    <option value="INR">INR</option>
+                    <option value="AUD">AUD</option>
+                </select>
+                <img id="toFlag" src="" alt="To Flag">
+            </div>
+            
+            <button onclick="convertCurrency()">Convert</button>
+            <div id="result" class="result"></div>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2024 Currency Converter
+    </footer>
+
+    <script>
+        // Function to get the real-time exchange rates
+        async function getExchangeRates() {
+            const url = 'https://api.exchangerate-api.com/v4/latest/USD'; // Use an API for exchange rates
+            const response = await fetch(url);
+            const data = await response.json();
+            return data.rates;
+        }
+
+        // Function to get flag image URL based on the currency code
+        function getFlagURL(currencyCode) {
+            const flags = {
+                USD: 'https://flagcdn.com/w320/us.png',
+                EUR: 'https://flagcdn.com/w320/eu.png',
+                GBP: 'https://flagcdn.com/w320/gb.png',
+                INR: 'https://flagcdn.com/w320/in.png',
+                AUD: 'https://flagcdn.com/w320/au.png',
+            };
+            return flags[currencyCode] || '';
+        }
+
+        // Function to perform the currency conversion
+        async function convertCurrency() {
+            const amount = parseFloat(document.getElementById("amount").value);
+            const fromCurrency = document.getElementById("fromCurrency").value;
+            const toCurrency = document.getElementById("toCurrency").value;
+
+            if (isNaN(amount) || amount <= 0) {
+                alert("Please enter a valid amount.");
+                return;
+            }
+
+            const rates = await getExchangeRates();
+            const fromRate = rates[fromCurrency];
+            const toRate = rates[toCurrency];
+
+            if (fromRate && toRate) {
+                const convertedAmount = (amount * toRate) / fromRate;
+                document.getElementById("result").innerText = `${amount.toFixed(2)} ${fromCurrency} = ${convertedAmount.toFixed(2)} ${toCurrency}`;
+            } else {
+                alert("Error fetching exchange rates.");
+            }
+
+            // Set flags
+            document.getElementById("fromFlag").src = getFlagURL(fromCurrency);
+            document.getElementById("toFlag").src = getFlagURL(toCurrency);
+        }
+
+        // Set default flags on load
+        window.onload = function() {
+            document.getElementById("fromFlag").src = getFlagURL('USD');
+            document.getElementById("toFlag").src = getFlagURL('USD');
+        };
+    </script>
+
+</body>
+</html>
