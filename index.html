@@ -5,43 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ToolerKit</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Add Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <header>
+        <button id="navToggle" class="btn">
+            <i class="fas fa-bars"></i>
+        </button>
         <h1 id="nametool">
-          Tooler <h1 id="namekit">Kit</h1>
+            Tooler <span id="namekit">Kit</span>
         </h1>
+        <button id="darkModeToggle" class="btn">
+            <i class="fas fa-moon"></i>
+        </button>
     </header>
+    
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <button id="closeSidebar" class="btn">
+            <i class="fas fa-times"></i>
+        </button>
+        <ul>
+            <li><a href="/interest calculator /int-calc.html">Interest Calculator</a></li>
+            <li><a href="/Qr code generator /qr.html">QR Generator</a></li>
+            <li><a href="/file-converter /file-con.html">File Converter</a></li>
+            <li><a href="/Age-calculator/age-cal.html">Age Calculator</a></li>
+        </ul>
+    </div>
+    
     <main>
         <div class="tool" onclick="openTool('/interest calculator /int-calc.html')">
-            <i class="fas fa-calculator"></i> <!-- Icon for Interest Calculator -->
+            <i class="fas fa-calculator"></i>
             <h2>Interest Calculator</h2>
             <p>Calculate your interest easily.</p>
         </div>
-
         <div class="tool" onclick="openTool('/Qr code generator /qr.html')">
-            <i class="fas fa-qrcode"></i> <!-- Icon for QR Generator -->
+            <i class="fas fa-qrcode"></i>
             <h2>QR Generator</h2>
             <p>Generate QR Code easily.</p>
         </div>
-
         <div class="tool" onclick="openTool('/file-converter /file-con.html')">
-            <i class="fas fa-file-upload"></i> 
+            <i class="fas fa-file-upload"></i>
             <h2>File Converter</h2>
             <p>Convert your files easily.</p>
         </div>
-        
         <div class="tool" onclick="openTool('/Age-calculator/age-cal.html')">
-  <i class="fas fa-birthday-cake"></i>
-  <h2>Age Calculator</h2>
-  <p>Calculate your age easily.</p>
-</div>
+            <i class="fas fa-birthday-cake"></i>
+            <h2>Age Calculator</h2>
+            <p>Calculate your age easily.</p>
+        </div>
     </main>
+
     <footer>
         <p>&copy; 2024 Tools Hub</p>
     </footer>
+    
     <script src="main.js"></script>
 </body>
 </html>
