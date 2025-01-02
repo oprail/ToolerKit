@@ -1,120 +1,211 @@
-/* General Styles */
-body {
-    font-family: Arial, sans-serif;
+/* General Reset */
+body, h1, h2, p, ul, li {
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
-    color: #333;
-    transition: background-color 0.3s, color 0.3s;
+    box-sizing: border-box;
 }
 
-/* Header */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Header Styling */
 header {
-    background-color: #007BFF;
-    color: white;
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    padding: 1rem;
+    align-items: center;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    box-sizing: border-box;
 }
 
 header h1 {
-    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+    padding-left: 10px;
+}
+
+#namekit {
+    color: #fff100 ;
 }
 
 header .btn {
     background: none;
     border: none;
     color: white;
-    font-size: 1.5rem;
     cursor: pointer;
+    font-size: 20px;
+    padding: 5px;
 }
 
-header .btn:hover {
-    opacity: 0.8;
+header #darkModeToggle {
+    margin-left: auto;
 }
 
-/* Sidebar */
+
+
+/* Sidebar Styling */
 .sidebar {
     position: fixed;
     top: 0;
-    left: 0;
-    height: 100%;
+    left: -300px;
     width: 250px;
+    height: 100%;
     background-color: #333;
     color: white;
-    padding: 1rem;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
-    z-index: 1000;
+    padding: 20px;
+    transition: left 0.3s ease;
+    z-index: 1001;
+    overflow-y: auto;
 }
 
 .sidebar ul {
     list-style: none;
-    padding: 0;
+    margin-top: 20px;
 }
 
 .sidebar ul li {
-    margin: 1rem 0;
+    margin: 15px 0;
 }
 
 .sidebar ul li a {
-    color: white;
     text-decoration: none;
+    color: white;
+    font-size: 16px;
+    transition: color 0.3s;
 }
 
 .sidebar ul li a:hover {
-    text-decoration: underline;
+    color: #007bff;
 }
 
+.sidebar .btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 18px;
+}
+
+/* Sidebar Open */
 .sidebar.active {
-    transform: translateX(0);
+    left: 0;
 }
 
 /* Main Content */
 main {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: center;
-    padding: 1rem;
+    margin-top: 60px;
+    display: grid;
+    gap: 20px;
+    padding: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 }
 
 .tool {
     background-color: white;
     border: 1px solid #ddd;
-    border-radius: 5px;
-    width: 250px;
-    padding: 1rem;
+    border-radius: 8px;
+    padding: 20px;
     text-align: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
     cursor: pointer;
-    transition: transform 0.2s;
 }
 
 .tool:hover {
-    transform: scale(1.05);
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
+.tool i {
+    font-size: 40px;
+    color: #4063ff;
+    margin-bottom: 10px;
+}
+
+.tool h2 {
+    font-size: 20px;
+    margin: 10px 0;
+}
+
+.tool p {
+    font-size: 14px;
+    color: #666;
+}
+
+/* Footer */
 footer {
     text-align: center;
-    padding: 1rem 0;
     background-color: #333;
     color: white;
+    padding: 10px;
+    margin-top: 20px;
 }
 
 /* Dark Mode */
 body.dark-mode {
     background-color: #121212;
-    color: #ddd;
+    color: #f4f4f4;
 }
 
-body.dark-mode header {
-    background-color: #1E1E1E;
+body.dark-mode #namekit {
+    color: #ff000a;
+}
+body.dark-mode .tool i {
+    color: #ff4040;
 }
 
 body.dark-mode .tool {
-    background-color: #333333;
-    color: #ddd;
-    border-color: #444;
+    background-color: #333;
+    border-color: #1e1e1e;
+}
+
+body.dark-mode header {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode footer {
+    background-color: #1e1e1e;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 20px;
+    }
+
+    main {
+        grid-template-columns: repeat(2, 1fr); /* Two per row for mobile screens */
+        padding: 10px;
+    }
+
+    .tool {
+        padding: 15px;
+    }
+
+    .tool i {
+        font-size: 30px;
+    }
+
+    .tool h2 {
+        font-size: 18px;
+    }
+
+    .tool p {
+        font-size: 12px;
+    }
+
+    footer {
+        font-size: 12px;
+    }
 }

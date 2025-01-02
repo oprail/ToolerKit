@@ -3,6 +3,7 @@ function openTool(page) {
 }
 console.log('Hello World!');
 
+
 // Dark Mode Toggle
 const darkModeToggle = document.getElementById("darkModeToggle");
 const body = document.body;
