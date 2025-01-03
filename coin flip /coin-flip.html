@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coin Flip</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            font-size: 36px;
+            color: #444;
+            margin-top: 25px;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 20px;
+            cursor: pointer;
+            margin-top: 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+        }
+        .history-box {
+            margin-top: 0px;
+            padding: 0px 20px;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0px auto;
+            text-align: left;
+            overflow-y: auto;
+            max-height: 200px;
+        }
+        .history-box h3 {
+            margin-bottom: 10px;
+            font-size: 24px;
+            color: #444;
+        }
+        .history-item {
+            padding: 8px 0;
+            font-size: 18px;
+            border-bottom: 1px solid #ddd;
+        }
+        .history-item:last-child {
+            border-bottom: none;
+        }
+        .summary {
+            margin-top: 5px;
+            font-size: 20px;
+            color: #333;
+            font-weight: bold;
+        }
+        .coin-icon {
+            font-size: 50px;
+            color: #4CAF50;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Coin Flip</h1>
+    <button onclick="flipCoin()">
+        <i class="fas fa-coin"></i> Flip Coin
+    </button>
+    <div class="result" id="result"></div>
+    
+    <div class="coin-icon">
+        <i class="fas fa-coin"></i>
+    </div>
+
+    <div class="history-box">
+        <h3>Flip History</h3>
+        <div id="flipHistory"></div>
+    </div>
+
+    <div class="summary" id="summary">
+        <p>Total Flips: <span id="totalFlips">0</span></p>
+        <p>Total Heads: <span id="totalHeads">0</span></p>
+        <p>Total Tails: <span id="totalTails">0</span></p>
+    </div>
+
+    <script>
+        let flipHistory = [];
+        let totalHeads = 0;
+        let totalTails = 0;
+        let totalFlips = 0;
+
+        function flipCoin() {
+            const result = Math.random() < 0.5 ? 'Heads' : 'Tails';
+            totalFlips++;
+            if (result === 'Heads') {
+                totalHeads++;
+            } else {
+                totalTails++;
+            }
+
+            // Update flip history
+            flipHistory.push(result);
+            updateHistory();
+
+            // Update results
+            document.getElementById('result').innerText = 'Result: ' + result;
+            document.getElementById('totalFlips').innerText = totalFlips;
+            document.getElementById('totalHeads').innerText = totalHeads;
+            document.getElementById('totalTails').innerText = totalTails;
+        }
+
+        function updateHistory() {
+            const historyContainer = document.getElementById('flipHistory');
+            historyContainer.innerHTML = '';
+            flipHistory.forEach((flip, index) => {
+                const historyItem = document.createElement('div');
+                historyItem.classList.add('history-item');
+                historyItem.innerText = `Flip ${index + 1}: ${flip}`;
+                historyContainer.appendChild(historyItem);
+            });
+        }
+    </script>
+</body>
+</html>

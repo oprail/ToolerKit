@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indian Tax Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #results {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #e9ffe9;
+            border: 1px solid #c3e6c3;
+            border-radius: 8px;
+        }
+
+        #results p {
+            margin: 5px 0;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <h1>Indian Tax Calculator</h1>
+    <form id="tax-form">
+        <label for="income">Annual Income (₹):</label>
+        <input type="number" id="income" placeholder="Enter your total annual income (e.g., 500000)" required>
+
+        <label for="age">Age Group:</label>
+        <select id="age">
+            <option value="below60">Below 60</option>
+            <option value="senior60">Senior Citizen (60-80)</option>
+            <option value="super80">Super Senior Citizen (Above 80)</option>
+        </select>
+
+        <label for="investments">Investments under Section 80C (₹):</label>
+        <input type="number" id="investments" placeholder="Enter your investment amount under 80C (e.g., 150000)" required>
+
+        <label for="regime">Choose Tax Regime:</label>
+        <select id="regime">
+            <option value="old">Old Regime</option>
+            <option value="new">New Regime</option>
+        </select>
+
+        <button type="button" onclick="calculateTax()">Calculate Tax</button>
+    </form>
+
+    <div id="results"></div>
+
+    <footer>
+        <p>Note: This calculator is a guide and may not account for all individual scenarios. Consult a tax professional for detailed advice.</p>
+    </footer>
+
+    <script>
+        function calculateTax() {
+            // Retrieve input values
+            const income = parseFloat(document.getElementById("income").value);
+            const age = document.getElementById("age").value;
+            const investments = parseFloat(document.getElementById("investments").value || 0);
+            const regime = document.getElementById("regime").value;
+
+            // Validate inputs
+            if (isNaN(income) || isNaN(investments)) {
+                alert("Please fill all fields correctly.");
+                return;
+            }
+
+            let taxableIncome = income;
+            let tax = 0;
+            let explanation = "";
+
+            // Store input values to retain them after calculation
+            document.getElementById("income").value = income;
+            document.getElementById("age").value = age;
+            document.getElementById("investments").value = investments;
+            document.getElementById("regime").value = regime;
+
+            if (regime === "old") {
+                // Apply Section 80C deductions (max ₹1,50,000)
+                taxableIncome -= Math.min(investments, 150000);
+
+                // Apply tax slabs for old regime
+                if (age === "super80") {
+                    tax = calculateOldTaxSuper(taxableIncome);
+                    explanation = "As a Super Senior Citizen, you get a higher exemption limit under the Old Regime.";
+                } else if (age === "senior60") {
+                    tax = calculateOldTaxSenior(taxableIncome);
+                    explanation = "As a Senior Citizen, you get a higher exemption limit under the Old Regime.";
+                } else {
+                    tax = calculateOldTaxRegular(taxableIncome);
+                    explanation = "Under the Old Regime, deductions like Section 80C are applied.";
+                }
+            } else {
+                // New Regime: No deductions
+                tax = calculateNewTax(taxableIncome);
+                explanation = "Under the New Regime, no deductions are considered, but tax rates are lower.";
+            }
+
+            // Add 4% education cess
+            tax += tax * 0.04;
+
+            // Display results
+            const resultsDiv = document.getElementById("results");
+            resultsDiv.innerHTML = `
+                <p><strong>Total Taxable Income:</strong> ₹${taxableIncome.toFixed(2)}</p>
+                <p><strong>Total Tax Payable:</strong> ₹${tax.toFixed(2)}</p>
+                <p><strong>Explanation:</strong> ${explanation}</p>
+            `;
+        }
+
+        // Old tax regime slab functions
+        function calculateOldTaxRegular(income) {
+            return calculateSlabTax(income, [250000, 500000, 1000000], [0.05, 0.2, 0.3]);
+        }
+
+        function calculateOldTaxSenior(income) {
+            return calculateSlabTax(income, [300000, 500000, 1000000], [0.05, 0.2, 0.3]);
+        }
+
+        function calculateOldTaxSuper(income) {
+            return calculateSlabTax(income, [500000, 1000000], [0.2, 0.3]);
+        }
+
+        // New tax regime slab function
+        function calculateNewTax(income) {
+            return calculateSlabTax(income, [250000, 500000, 750000, 1000000, 1250000, 1500000], [0.05, 0.1, 0.15, 0.2, 0.25, 0.3]);
+        }
+
+        // General slab tax calculation
+        function calculateSlabTax(income, slabs, rates) {
+            let tax = 0;
+            for (let i = 0; i < slabs.length; i++) {
+                if (income > slabs[i]) {
+                    const taxableAtThisRate = Math.min(income - slabs[i], slabs[i + 1] - slabs[i] || Infinity);
+                    tax += taxableAtThisRate * rates[i];
+                }
+            }
+            return tax;
+        }
+    </script>
+</body>
+</html>
